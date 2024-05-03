@@ -13,6 +13,7 @@ public class Main {
 	static int[] dx = {-1, 1, 0, 0};
 	static int[] dy = {0, 0, -1, 1};
 	static int[][] map, temp; // 원판 정보
+//	static boolean[][] visited;
 	static class Info {
 		int x, y;
 		public Info(int x, int y) {
@@ -20,6 +21,10 @@ public class Main {
 			this.x = x;
 			this.y = y;
 		}
+//		@Override
+//		public String toString() {
+//			return "Info [x=" + x + ", y=" + y + "]";
+//		}
 	}
 	
 	static void rotate(int n, int d, int k) {
@@ -45,6 +50,7 @@ public class Main {
 	
 	static boolean isExist() {
 		boolean result = false; // 인접하면서 같은 수가 있는지 여부
+//		visited = new boolean[N + 1][M + 1];
 		for (int i = 1; i <= N; i++) {
 			temp[i] = map[i].clone();
 		}
@@ -53,11 +59,15 @@ public class Main {
 			for (int j = 1; j <= M; j++) {
 				if (temp[i][j] == -1) // 이미 지워진 수
 					continue;
+//				temp[i][j] = map[i][j];
 
 				Queue<Info> q = new LinkedList<>();
 				q.add(new Info(i, j));
+//				System.out.println("q 초기화 : " + new Info(i, j) + ", 값 : " + map[i][j]);
 				while (!q.isEmpty()) {
 					Info cur = q.poll();
+//					System.out.println("q 뺌 : " + cur + ", 값 : " + map[i][j]);
+//					visited[cur.x][cur.y] = true;
 					for (int d = 0; d < 4; d++) {
 						int nx = cur.x + dx[d];
 						int ny = cur.y + dy[d];
@@ -105,6 +115,9 @@ public class Main {
 			}
 		}
 		double avgValue = (double) sum / cnt;
+//		System.out.println("합 : " + sum);
+//		System.out.println("개수 : " + cnt);
+//		System.out.println("평균은 : " + avgValue);
 		
 		for (int i = 1; i <= N; i++) {
 			for (int j = 1; j <= M; j++) {
@@ -130,6 +143,15 @@ public class Main {
 		}
 		return result;
 	}
+	
+//	static void print() {
+//		for (int i = 1; i <= N; i++) {
+//			for (int j = 1; j <= M; j++) {
+//				System.out.print(map[i][j] + " ");
+//			}
+//			System.out.println();
+//		} 
+//	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -158,11 +180,15 @@ public class Main {
 				if (i % x != 0) // x의 배수인 원판만 회전
 					continue;
 				rotate(i, d, k);
+//				System.out.println("회전 원판 : " + i);
+//				print();
 			}
 			
 			if (!isExist()) {
 				avg();
 			}
+//			System.out.println("재조정 후");
+//			print();
 		}
 		
 		bw.write(String.valueOf(sum()));
